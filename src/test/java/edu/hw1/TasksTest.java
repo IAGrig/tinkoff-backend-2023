@@ -7,7 +7,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TasksTest {
     @Test
     @DisplayName("Длина видео")
-    void minutesToSecondsTest(){
+    void minutesToSecondsTest() {
         Tasks task = new Tasks();
         assertThat(task.minutesToSeconds("10:30")).isEqualTo(630);
         assertThat(task.minutesToSeconds("00:30")).isEqualTo(30);
@@ -19,7 +19,7 @@ public class TasksTest {
 
     @Test
     @DisplayName("Количество цифр")
-    void countDigitsTest(){
+    void countDigitsTest() {
         Tasks task = new Tasks();
         assertThat(task.countDigits(3)).isEqualTo(1);
         assertThat(task.countDigits(30)).isEqualTo(2);
@@ -30,13 +30,13 @@ public class TasksTest {
 
     @Test
     @DisplayName("Вложенный массив")
-    void isNestableTest(){
+    void isNestableTest() {
         Tasks task = new Tasks();
         int[][] test1 = {{1, 2, 3, 4}, {0, 6}};
         int[][] test2 = {{3, 1}, {4, 0}};
         int[][] test3 = {{9, 9, 8}, {8, 9}};
         int[][] test4 = {{1, 2, 3, 4}, {2, 3}};
-        int[][] test5 = {{}, {1,2,3}};
+        int[][] test5 = {{}, {1, 2, 3}};
         assertThat(task.isNestable(test1[0], test1[1])).isTrue();
         assertThat(task.isNestable(test2[0], test2[1])).isTrue();
         assertThat(task.isNestable(test3[0], test3[1])).isFalse();
@@ -46,7 +46,7 @@ public class TasksTest {
 
     @Test
     @DisplayName("Сломанная строка")
-    void fixStringTest(){
+    void fixStringTest() {
         Tasks task = new Tasks();
         assertThat(task.fixString("")).isEqualTo("");
         assertThat(task.fixString("t")).isEqualTo("t");
@@ -58,7 +58,7 @@ public class TasksTest {
 
     @Test
     @DisplayName("Особый палиндром")
-    void isPalindromeDescendantTest(){
+    void isPalindromeDescendantTest() {
         Tasks task = new Tasks();
         assertThat(task.isPalindromeDescendant(123312)).isTrue();
         assertThat(task.isPalindromeDescendant(11)).isTrue();
@@ -69,7 +69,7 @@ public class TasksTest {
     }
 
     @Test
-    void isPalindromeTest(){
+    void isPalindromeTest() {
         Tasks task = new Tasks();
         assertThat(task.isPalindrome(123321)).isTrue();
         assertThat(task.isPalindrome(11)).isTrue();
@@ -80,7 +80,7 @@ public class TasksTest {
 
     @Test
     @DisplayName("Постоянная Капрекара")
-    void countKTest(){
+    void countKTest() {
         Tasks task = new Tasks();
         assertThat(task.countK(3)).isEqualTo(-1);
         assertThat(task.countK(3333)).isEqualTo(-1);
@@ -92,9 +92,9 @@ public class TasksTest {
 
     @Test
     @DisplayName("Циклический битовый сдвиг влево")
-    void rotateLeftTest(){
+    void rotateLeftTest() {
         Tasks task = new Tasks();
-        assertThat(task.rotateLeft(8,2)).isEqualTo(2);
+        assertThat(task.rotateLeft(8, 2)).isEqualTo(2);
         assertThat(task.rotateLeft(15, 1)).isEqualTo(15);
         assertThat(task.rotateLeft(13, 0)).isEqualTo(13);
         assertThat(task.rotateLeft(13, 1)).isEqualTo(11);
@@ -104,9 +104,9 @@ public class TasksTest {
 
     @Test
     @DisplayName("Циклический битовый сдвиг вправо")
-    void rotateRightTest(){
+    void rotateRightTest() {
         Tasks task = new Tasks();
-        assertThat(task.rotateRight(8,2)).isEqualTo(2);
+        assertThat(task.rotateRight(8, 2)).isEqualTo(2);
         assertThat(task.rotateRight(15, 1)).isEqualTo(15);
         assertThat(task.rotateRight(13, 0)).isEqualTo(13);
         assertThat(task.rotateRight(13, 1)).isEqualTo(14);
@@ -115,7 +115,7 @@ public class TasksTest {
     }
 
     @Test
-    void rotateLeft1PositionTest(){
+    void rotateLeft1PositionTest() {
         Tasks task = new Tasks();
         assertThat(task.rotateLeft1Position(8, 4)).isEqualTo(1);
         assertThat(task.rotateLeft1Position(17, 5)).isEqualTo(3);
@@ -125,7 +125,7 @@ public class TasksTest {
 
     @Test
     @DisplayName("Кони на доске")
-    void knightBoardCaptureTest(){
+    void knightBoardCaptureTest() {
         Tasks task = new Tasks();
         int[][] desk1 = {
             {0, 0, 0, 1, 0, 0, 0, 0},
