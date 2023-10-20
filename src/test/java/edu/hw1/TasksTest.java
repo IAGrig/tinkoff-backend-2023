@@ -2,6 +2,8 @@ package edu.hw1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TasksTest {
@@ -15,6 +17,9 @@ public class TasksTest {
         assertThat(task.minutesToSeconds("10:60")).isEqualTo(-1);
         assertThat(task.minutesToSeconds("100:00")).isEqualTo(6000);
         assertThat(task.minutesToSeconds("-10:03")).isEqualTo(-1);
+        assertThat(task.minutesToSeconds("1003")).isEqualTo(-1);
+        assertThat(task.minutesToSeconds("10:0:3")).isEqualTo(-1);
+        assertThat(task.minutesToSeconds("10:b3")).isEqualTo(-1);
     }
 
     @Test
@@ -56,16 +61,21 @@ public class TasksTest {
         assertThat(task.fixString("hTsii  s aimex dpus rtni.g")).isEqualTo("This is a mixed up string.");
     }
 
-    @Test
-    @DisplayName("Особый палиндром")
-    void isPalindromeDescendantTest() {
+
+    @DisplayName("Особый палиндром: True")
+    @ParameterizedTest
+    @ValueSource(ints = {123312, 11, 11211230, 13001120, 23336014, 4655, 101010})
+    void isPalindromeDescendantTrueTest(int number) {
         Tasks task = new Tasks();
-        assertThat(task.isPalindromeDescendant(123312)).isTrue();
-        assertThat(task.isPalindromeDescendant(11)).isTrue();
-        assertThat(task.isPalindromeDescendant(11211230)).isTrue();
-        assertThat(task.isPalindromeDescendant(13001120)).isTrue();
-        assertThat(task.isPalindromeDescendant(23336014)).isTrue();
-        assertThat(task.isPalindromeDescendant(1317)).isFalse();
+        assertThat(task.isPalindromeDescendant(number)).isTrue();
+    }
+
+    @DisplayName("Особый палиндром: False")
+    @ParameterizedTest
+    @ValueSource(ints = {1317, 1234, 12345})
+    void isPalindromeDescendantFalseTest(int number) {
+        Tasks task = new Tasks();
+        assertThat(task.isPalindromeDescendant(number)).isFalse();
     }
 
     @Test

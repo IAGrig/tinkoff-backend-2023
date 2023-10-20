@@ -17,9 +17,20 @@ public final class Tasks {
 
     public int minutesToSeconds(String str) {
         final int SECONDS_PER_MINUTE = 60;
+
         String[] splitString = str.split(":");
-        int minutes = Integer.parseInt(splitString[0]);
-        int seconds = Integer.parseInt(splitString[1]);
+        if (splitString.length != 2) {
+            return -1;
+        }
+
+        int minutes, seconds;
+        try {
+            minutes = Integer.parseInt(splitString[0]);
+            seconds = Integer.parseInt(splitString[1]);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
         if (seconds >= SECONDS_PER_MINUTE) {
             return -1;
         }
@@ -45,15 +56,12 @@ public final class Tasks {
         if (a2.length == 0 && a1.length > 0) {
             return false;
         }
-        int min1 = a1[0], min2 = a2[0], max1 = a1[0], max2 = a2[0];
-        for (int x : a1) {
-            min1 = Math.min(min1, x);
-            max1 = Math.max(max1, x);
-        }
-        for (int x : a2) {
-            min2 = Math.min(min2, x);
-            max2 = Math.max(max2, x);
-        }
+
+        int min1 = Arrays.stream(a1).min().getAsInt();
+        int min2 = Arrays.stream(a2).min().getAsInt();
+        int max1 = Arrays.stream(a1).max().getAsInt();
+        int max2 = Arrays.stream(a2).max().getAsInt();
+
         return (min1 > min2 && max1 < max2);
     }
 
@@ -70,13 +78,16 @@ public final class Tasks {
 
     public boolean isPalindromeDescendant(int number) {
         int[] digits = intToArray(number);
-        int children = 0;
-        for (int i = digits.length - 1; i > 0; i -= 2) {
-            // what if sum is > 9???
-            children += (int) ((digits[i - 1] + digits[i]) * Math.pow(10, (digits.length - i - 1) / 2));
+
+        StringBuilder children = new StringBuilder();
+        if (digits.length%2 == 0) {
+            for (int i = 0; i < digits.length; i += 2) {
+                children.append(digits[i]+digits[i+1]);
+            }
         }
-        if (countDigits(children) > 1) {
-            return isPalindrome(number) || isPalindromeDescendant(children);
+
+        if (children.length() > 1) {
+            return isPalindrome(number) || isPalindromeDescendant(Integer.parseInt(children.toString()));
         }
         return isPalindrome(number);
     }
@@ -153,6 +164,7 @@ public final class Tasks {
 
     public int rotateRight(int n, int shift) {
         int countOfBinaryDigits = (int) Math.ceil(Math.log(n + 1) / Math.log(2));
+        shift %= countOfBinaryDigits;
         return rotateLeft(n, countOfBinaryDigits - shift);
     }
 
