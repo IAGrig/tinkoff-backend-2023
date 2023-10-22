@@ -19,7 +19,7 @@ public class ConsoleHandler {
             case MISTAKE -> System.out.printf("Missed, mistake %d of %d%n", attempt, maxAttempts);
             case VICTORY -> System.out.println("You won!");
             case DEFEAT -> System.out.println("You lost!");
-            default ->
+            default -> System.out.println("Something went wrong...h");
         }
     }
 

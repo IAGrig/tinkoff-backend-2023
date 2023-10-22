@@ -45,6 +45,12 @@ class Session {
                 return STATUSES.DEFEAT;
             }
         }
+
+        if (Arrays.equals(userAnswer, answer)) {
+            state = STATES.FINISHED;
+            return STATUSES.VICTORY;
+        }
+
         return succeedTry ? STATUSES.HIT : STATUSES.MISTAKE;
     }
 
