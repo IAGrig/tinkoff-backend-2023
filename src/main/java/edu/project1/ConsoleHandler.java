@@ -1,35 +1,37 @@
 package edu.project1;
 
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ConsoleHandler {
 
+    private final static Logger LOGGER = LogManager.getLogger();
     public final char EXIT_CHAR = '!';
     private final Scanner scanner = new Scanner(System.in);
     private final String EXIT_COMMAND = "!EXIT";
 
     public void printGreeting() {
-        System.out.println("Welcome to HangmanConsoleGame!");
-        System.out.printf("If you want to give up, type '%s'.%n", EXIT_COMMAND);
+        LOGGER.info("Welcome to HangmanConsoleGame!");
+        LOGGER.info("If you want to give up, type " + EXIT_COMMAND + ".");
     }
 
-    public void printTryResult(Session.STATUSES status, int attempt, int maxAttempts) {
-        switch (status) {
-            case HIT -> System.out.println("Hit!");
-            case MISTAKE -> System.out.printf("Missed, mistake %d of %d%n", attempt, maxAttempts);
-            case VICTORY -> System.out.println("You won!");
-            case DEFEAT -> System.out.println("You lost!");
-            default -> System.out.println("Something went wrong...h");
+    public void printTryResult(Session.status tryStatus, int attempt, int maxAttempts) {
+        switch (tryStatus) {
+            case HIT -> LOGGER.info("Hit!");
+            case MISTAKE -> LOGGER.info("Missed, mistake " + attempt + " of " + maxAttempts);
+            case VICTORY -> LOGGER.info("You won!");
+            case DEFEAT -> LOGGER.info("You lost!");
+            default -> LOGGER.info("Something went wrong...h");
         }
     }
 
     public void printCurrentWord(String word) {
-        System.out.printf("> %s %n", word);
+        LOGGER.info("> " + word);
     }
 
     public char getUserLetter() {
-        System.out.println("Guess a letter:");
-        System.out.print("> ");
+        LOGGER.info("Guess a letter:");
         String input = scanner.nextLine();
         if (input.equals(EXIT_COMMAND)) {
             return EXIT_CHAR;
@@ -40,7 +42,7 @@ public class ConsoleHandler {
                 return letter;
             }
         }
-        System.out.println("Sorry, enter letter or exit command");
+        LOGGER.info("Sorry, enter letter or exit command");
         return getUserLetter();
     }
 }

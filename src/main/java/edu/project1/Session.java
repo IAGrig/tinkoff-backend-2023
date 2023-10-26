@@ -3,22 +3,22 @@ package edu.project1;
 import java.util.Arrays;
 
 class Session {
-    public final int maxAttempts;
+    private final int maxAttempts;
     private final char[] answer;
     private final char[] userAnswer;
-    public STATES state;
-    public int attempts;
+    private state currentState;
+    private int attempts;
 
-    Session(String answer) {
+    protected Session(String answer) {
         this.answer = answer.toCharArray();
         this.userAnswer = answer.toCharArray();
         Arrays.fill(this.userAnswer, '*');
         this.maxAttempts = answer.length();
         this.attempts = 0;
         if (2 < answer.length() && answer.length() < 40) {
-            state = STATES.ACTIVE;
+            currentState = state.ACTIVE;
         } else {
-            state = STATES.FINISHED;
+            currentState = state.FINISHED;
         }
     }
 
@@ -26,7 +26,7 @@ class Session {
         return new String(userAnswer);
     }
 
-    public STATUSES tryGuess(char letter) {
+    public status tryGuess(char letter) {
         boolean succeedTry = false;
         for (int i = 0; i < userAnswer.length; i++) {
             if (answer[i] == letter) {
@@ -38,27 +38,39 @@ class Session {
             attempts++;
         }
         if (attempts >= maxAttempts) {
-            state = STATES.FINISHED;
+            currentState = state.FINISHED;
             if (Arrays.equals(userAnswer, answer)) {
-                return STATUSES.VICTORY;
+                return status.VICTORY;
             } else {
-                return STATUSES.DEFEAT;
+                return status.DEFEAT;
             }
         }
 
         if (Arrays.equals(userAnswer, answer)) {
-            state = STATES.FINISHED;
-            return STATUSES.VICTORY;
+            currentState = state.FINISHED;
+            return status.VICTORY;
         }
 
-        return succeedTry ? STATUSES.HIT : STATUSES.MISTAKE;
+        return succeedTry ? status.HIT : status.MISTAKE;
     }
 
     public void giveUp() {
-        state = STATES.FINISHED;
+        currentState = state.FINISHED;
     }
 
-    public enum STATUSES {HIT, MISTAKE, VICTORY, DEFEAT}
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
 
-    public enum STATES {ACTIVE, FINISHED}
+    public int getAttempts() {
+        return attempts;
+    }
+
+    public state getCurrentState() {
+        return currentState;
+    }
+
+    public enum status {HIT, MISTAKE, VICTORY, DEFEAT}
+
+    public enum state {ACTIVE, FINISHED}
 }
