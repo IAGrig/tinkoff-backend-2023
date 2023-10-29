@@ -2,6 +2,7 @@ package edu.hw3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -140,6 +141,15 @@ public class MainTest {
         TreeMap<String, String> tree = new TreeMap<>(comparator);
         tree.put(null, "test");
         assertThat(tree.containsKey(null)).isTrue();
+    }
+
+    @DisplayName("Обратный итератор")
+    @Test
+    void BackwardIteratorTest(){
+        BackwardIterator iterator = new BackwardIterator(List.of(1,2,3));
+        assertThat(iterator.next()).isEqualTo(3);
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.next()).isEqualTo(1);
     }
 
 //    @DisplayName("Особый палиндром: True")
