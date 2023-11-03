@@ -1,4 +1,4 @@
-package edu.hw3;
+package edu.hw3.contacts;
 
 import java.util.Comparator;
 

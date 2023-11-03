@@ -1,33 +1,44 @@
 package edu.hw3;
 
+import edu.hw3.contacts.Contact;
+import edu.hw3.contacts.ContactsComparator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Main {
+    public static List<Contact> parseContacts(String[] names, String sortingMode) {
+        PriorityQueue<Contact> contacts;
+        if (sortingMode.equals("ASC")) {
+            ContactsComparator comparator = new ContactsComparator();
+            contacts = new PriorityQueue<>(comparator);
+        } else if (sortingMode.equals("DESC")) {
+            ContactsComparator comparator = new ContactsComparator();
+            contacts = new PriorityQueue<>(comparator.reversed());
+        } else {
+            contacts = new PriorityQueue<>();
+        }
+
+        for (String s : names) {
+            if (s == null || s.isBlank()) {
+                continue;
+            }
+            String[] splittedName = s.split(" ");
+            if (splittedName.length == 1) {
+                contacts.add(new Contact(splittedName[0]));
+            } else {
+                contacts.add(new Contact(splittedName[0], splittedName[1]));
+            }
+        }
+        return contacts.stream().toList();
+    }
+
     public String atbash(String s) {
         char[] letters = s.toCharArray();
         for (int i = 0; i < letters.length; i++) {
-            if ('A' <= letters[i] && letters[i] <= 'Z') {
-                // positions 0,1,2...23,24,25 (char codes)
-                int fromAPosition = letters[i] - 'A';
-                int fromZPosition = 25 - fromAPosition;
-                if (fromAPosition <= fromZPosition) {
-                    letters[i] = (char) ('Z' - fromAPosition);
-                } else {
-                    letters[i] = (char) ('A' + fromZPosition);
-                }
-            }
-            if ('a' <= letters[i] && letters[i] <= 'z') {
-                // positions 0,1,2...23,24,25 (char codes)
-                int fromAPosition = letters[i] - 'a';
-                int fromZPosition = 25 - fromAPosition;
-                if (fromAPosition <= fromZPosition) {
-                    letters[i] = (char) ('z' - fromAPosition);
-                } else {
-                    letters[i] = (char) ('a' + fromZPosition);
-                }
-            }
+            letters[i] = getEncryptedChar(letters[i]);
         }
         return new String(letters);
     }
@@ -80,8 +91,43 @@ public class Main {
         return result.toString();
     }
 
-    public List<Contact> parseContacts(String[] namesArray, String sortingMode) {
-        return Contact.parseContacts(namesArray, sortingMode);
+    private char getEncryptedChar(char character) {
+        Map<Character, Character> map = Map.ofEntries(
+            Map.entry('a', 'z'),
+            Map.entry('b', 'y'),
+            Map.entry('c', 'x'),
+            Map.entry('d', 'w'),
+            Map.entry('e', 'v'),
+            Map.entry('f', 'u'),
+            Map.entry('g', 't'),
+            Map.entry('h', 's'),
+            Map.entry('i', 'r'),
+            Map.entry('j', 'q'),
+            Map.entry('k', 'p'),
+            Map.entry('l', 'o'),
+            Map.entry('m', 'n'),
+            Map.entry('n', 'm'),
+            Map.entry('o', 'l'),
+            Map.entry('p', 'k'),
+            Map.entry('q', 'j'),
+            Map.entry('r', 'i'),
+            Map.entry('s', 'h'),
+            Map.entry('t', 'g'),
+            Map.entry('u', 'f'),
+            Map.entry('v', 'e'),
+            Map.entry('w', 'd'),
+            Map.entry('x', 'c'),
+            Map.entry('y', 'b'),
+            Map.entry('z', 'a')
+        );
+        if ('a' <= character && character <= 'z') {
+            return map.get(character);
+        } else if ('A' <= character && character <= 'Z') {
+            int capitalizingDiff = 'a' - 'A'; // 97 - 65
+            return (map.get(character - capitalizingDiff));
+        } else {
+            return character;
+        }
     }
 
     private String primitiveToRoman(int number) {

@@ -1,11 +1,11 @@
-package edu.hw3;
+package edu.hw3.stocks;
 
 import java.util.PriorityQueue;
 
 public class StockMarket {
     PriorityQueue<Stock> stocks;
 
-    StockMarket() {
+    public StockMarket() {
         StocksComparator comparator = new StocksComparator();
         this.stocks = new PriorityQueue<>(comparator);
     }

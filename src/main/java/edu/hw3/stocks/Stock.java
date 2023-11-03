@@ -1,10 +1,10 @@
-package edu.hw3;
+package edu.hw3.stocks;
 
 public class Stock {
     String name;
-    int price;
+    double price;
 
-    public Stock(String name, int price) {
+    public Stock(String name, double price) {
         this.name = name;
         this.price = price;
     }
