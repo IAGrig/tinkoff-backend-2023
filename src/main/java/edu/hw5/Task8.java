@@ -10,8 +10,8 @@ public class Task8 {
         return matcher.find();
     }
 
-    public boolean without11And111(String string) {
-        Pattern pattern = Pattern.compile("^[01]*$(?<!^(?:11|111)$)");
+    public boolean not11Nor111(String string) {
+        Pattern pattern = Pattern.compile("^(?!11$|111$)[01]*$");
         Matcher matcher = pattern.matcher(string);
         return matcher.find();
     }
@@ -22,7 +22,7 @@ public class Task8 {
         return matcher.find();
     }
 
-    public boolean noConsecutiveOne(String string){
+    public boolean noConsecutiveOne(String string) {
         Pattern pattern = Pattern.compile("^[01]*$(?<!11)");
         Matcher matcher = pattern.matcher(string);
         return matcher.find();
