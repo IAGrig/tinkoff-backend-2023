@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Renderer {
     public void render(LogReport logReport, OutputFormat format) {
         if (format == null) {
-            format = OutputFormat.MARKDOWN;
+            format = OutputFormat.ADOC;
         }
         switch (format) {
             case MARKDOWN -> {
@@ -15,7 +15,9 @@ public class Renderer {
                 printAnswersCodesMD(logReport);
             }
             case ADOC -> {
-                System.out.println("adocOutput");
+                printMainTableADOC(logReport);
+                printRequestedResourcesADOC(logReport);
+                printAnswersCodesADOC(logReport);
             }
         }
     }
@@ -68,5 +70,52 @@ public class Renderer {
             stringBuilder.append("| " + es.getKey() + " | " + es.getValue() + " |\n");
         });
         System.out.println(stringBuilder);
+    }
+
+    private void printMainTableADOC(LogReport logReport) {
+        System.out.println(".Общая информация \n|===");
+        System.out.println("| Метрика | Значение \n");
+
+        StringBuilder temp = new StringBuilder();
+        temp.append("|Файл(ы) \n|");
+        for (String filename : logReport.getFiles()) {
+            temp.append("`" + filename + "`,");
+        }
+        System.out.println(temp);
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        String fromDate = "-";
+        String toDate = "-";
+        if (logReport.getFromDate() != null) {
+            fromDate = logReport.getFromDate().format(dateTimeFormatter);
+        }
+        if (logReport.getToDate() != null) {
+            toDate = logReport.getToDate().format(dateTimeFormatter);
+        }
+        System.out.println("| Начальная дата \n|" + fromDate + "\n");
+        System.out.println("| Конечная дата \n|" + toDate + "\n");
+        System.out.println("| Количество запросов \n|" + logReport.getRequestsCount() + "\n");
+        System.out.println("| Средний размер ответа \n|" + logReport.getAverageAnswerSize() + "\n");
+        System.out.println("|===\n");
+    }
+
+    public void printRequestedResourcesADOC(LogReport logReport) {
+        System.out.println(".Запрашиваемые ресурсы \n|===");
+        System.out.println("| Ресурс | Количество \n");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getRequestedResources().entrySet().stream().forEach(es -> {
+            stringBuilder.append("|" + es.getKey() + "\n|" + es.getValue() + "\n\n");
+        });
+        System.out.println(stringBuilder + "|===\n");
+    }
+
+    private void printAnswersCodesADOC(LogReport logReport) {
+        System.out.println(".Коды ответа \n|===");
+        System.out.println("| Код | Количество \n");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getRequestedResources().entrySet().stream().forEach(es -> {
+            stringBuilder.append("|" + es.getKey() + "\n|" + es.getValue() + "\n\n");
+        });
+        System.out.println(stringBuilder + "|===\n");
     }
 }
