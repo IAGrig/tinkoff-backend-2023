@@ -8,11 +8,13 @@ public class LogReport {
     private final List<String> files;
     private final OffsetDateTime fromDate;
     private final OffsetDateTime toDate;
+    private final HashMap<String, Integer> requestedResources;
+    private final HashMap<Integer, Integer> answerCodes;
+    private final HashMap<String, Integer> httpMethods;
+    private final HashMap<String, Integer> userAgents;
     private int requestsCount;
     private int answersCount;
     private int totalAnswersSize;
-    private final HashMap<String, Integer> requestedResources;
-    private final HashMap<Integer, Integer> answerCodes;
 
     public LogReport(List<String> files, OffsetDateTime fromDate, OffsetDateTime toDate) {
         this.files = files;
@@ -20,6 +22,8 @@ public class LogReport {
         this.toDate = toDate;
         this.requestedResources = new HashMap<>();
         this.answerCodes = new HashMap<>();
+        this.httpMethods = new HashMap<>();
+        this.userAgents = new HashMap<>();
     }
 
     public void addRequest(String requestedResource) {
@@ -31,6 +35,14 @@ public class LogReport {
         answersCount++;
         totalAnswersSize += answersSize;
         answerCodes.put(answerCode, answerCodes.getOrDefault(answerCode, 0) + 1);
+    }
+
+    public void addHttpMethod(String httpMethod) {
+        httpMethods.put(httpMethod, httpMethods.getOrDefault(httpMethod, 0) + 1);
+    }
+
+    public void addUserAgent(String userAgent) {
+        userAgents.put(userAgent, userAgents.getOrDefault(userAgent, 0) + 1);
     }
 
     public List<String> getFiles() {
@@ -59,5 +71,13 @@ public class LogReport {
 
     public HashMap<Integer, Integer> getAnswerCodes() {
         return answerCodes;
+    }
+
+    public HashMap<String, Integer> getHttpMethods() {
+        return httpMethods;
+    }
+
+    public HashMap<String, Integer> getUserAgents() {
+        return userAgents;
     }
 }

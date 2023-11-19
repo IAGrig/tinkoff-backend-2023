@@ -13,11 +13,15 @@ public class Renderer {
                 printMainTableMD(logReport);
                 printRequestedResourcesMD(logReport);
                 printAnswersCodesMD(logReport);
+                printHttpMethodsMD(logReport);
+                printUserAgentsMD(logReport);
             }
             case ADOC -> {
                 printMainTableADOC(logReport);
                 printRequestedResourcesADOC(logReport);
                 printAnswersCodesADOC(logReport);
+                printHttpMethodsADOC(logReport);
+                printUserAgentsADOC(logReport);
             }
         }
     }
@@ -72,6 +76,28 @@ public class Renderer {
         System.out.println(stringBuilder);
     }
 
+    private void printHttpMethodsMD(LogReport logReport) {
+        System.out.println("#### Http методы");
+        System.out.println("| Метод | Количество |");
+        System.out.println("|:-----:|:----------:|");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getHttpMethods().entrySet().stream().forEach(es -> {
+            stringBuilder.append("| " + es.getKey() + " | " + es.getValue() + " |\n");
+        });
+        System.out.println(stringBuilder);
+    }
+
+    private void printUserAgentsMD(LogReport logReport) {
+        System.out.println("#### User agents");
+        System.out.println("| User Agent | Количество |");
+        System.out.println("|:----------:|:----------:|");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getUserAgents().entrySet().stream().forEach(es -> {
+            stringBuilder.append("| " + es.getKey() + " | " + es.getValue() + " |\n");
+        });
+        System.out.println(stringBuilder);
+    }
+
     private void printMainTableADOC(LogReport logReport) {
         System.out.println(".Общая информация \n|===");
         System.out.println("| Метрика | Значение \n");
@@ -114,6 +140,26 @@ public class Renderer {
         System.out.println("| Код | Количество \n");
         StringBuilder stringBuilder = new StringBuilder();
         logReport.getRequestedResources().entrySet().stream().forEach(es -> {
+            stringBuilder.append("|" + es.getKey() + "\n|" + es.getValue() + "\n\n");
+        });
+        System.out.println(stringBuilder + "|===\n");
+    }
+
+    private void printHttpMethodsADOC(LogReport logReport) {
+        System.out.println(".HTTP методы \n|===");
+        System.out.println("| Метод | Количество \n");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getHttpMethods().entrySet().stream().forEach(es -> {
+            stringBuilder.append("|" + es.getKey() + "\n|" + es.getValue() + "\n\n");
+        });
+        System.out.println(stringBuilder + "|===\n");
+    }
+
+    private void printUserAgentsADOC(LogReport logReport) {
+        System.out.println(".User agents \n|===");
+        System.out.println("| User agent | Количество \n");
+        StringBuilder stringBuilder = new StringBuilder();
+        logReport.getUserAgents().entrySet().stream().forEach(es -> {
             stringBuilder.append("|" + es.getKey() + "\n|" + es.getValue() + "\n\n");
         });
         System.out.println(stringBuilder + "|===\n");

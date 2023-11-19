@@ -36,12 +36,14 @@ public class StatCounter {
         String request;
         int answerCode;
         int answerSize;
+        String userAgent;
 
         if (matcher.find()) {
             dateString = matcher.group(3);
             request = matcher.group(4);
             answerCode = Integer.parseInt(matcher.group(5));
             answerSize = Integer.parseInt(matcher.group(6));
+            userAgent = matcher.group(8);
         } else {
             return;
         }
@@ -52,9 +54,11 @@ public class StatCounter {
         if (dateTime.isAfter(fromDate) && dateTime.isBefore(toDate)) {
             String[] requestParts = request.split(" ");
             if (requestParts.length == 3) {
+                report.addHttpMethod(requestParts[0]);
                 report.addRequest(requestParts[1]);
             }
             report.addAnswer(answerCode, answerSize);
+            report.addUserAgent(userAgent);
         }
     }
 }
