@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class Task1 {
     public String calculateAverageTime(String[] strings) {
-        int[] durations = new int[strings.length];
+        Duration totalDuration = Duration.ZERO;
         for (int session = 0; session < strings.length; session++) {
             String[] parts = strings[session].split(" - ");
             if (parts.length != 2) {
@@ -18,28 +18,23 @@ public class Task1 {
                 Date dateStart = parser.parse(parts[0]);
                 Date dateEnd = parser.parse(parts[1]);
                 Duration duration = Duration.between(dateStart.toInstant(), dateEnd.toInstant());
-                durations[session] = (int) duration.getSeconds();
+                totalDuration = totalDuration.plus(duration);
             } catch (java.text.ParseException e) {
                 return null;
             }
         }
-        int averageSecondsCount = IntStream.of(durations).sum() / durations.length;
-        StringBuilder result = new StringBuilder();
-        final int SECONDS_PER_MINUTE = 60;
-        final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
-        final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-        if (averageSecondsCount / SECONDS_PER_DAY > 0) {
-            result.append(String.format("%dд ", averageSecondsCount / SECONDS_PER_DAY));
-            averageSecondsCount -= (averageSecondsCount / SECONDS_PER_DAY) * SECONDS_PER_DAY;
+        StringBuilder result = new StringBuilder();
+        totalDuration = totalDuration.dividedBy(strings.length);
+
+        if (totalDuration.toDaysPart() > 0) {
+            result.append(String.format("%dд ", totalDuration.toDaysPart()));
         }
-        if (averageSecondsCount / SECONDS_PER_HOUR > 0) {
-            result.append(String.format("%dч ", averageSecondsCount / SECONDS_PER_HOUR));
-            averageSecondsCount -= (averageSecondsCount / SECONDS_PER_HOUR) * SECONDS_PER_HOUR;
+        if (totalDuration.toHoursPart() > 0) {
+            result.append(String.format("%dч ", totalDuration.toHoursPart()));
         }
-        if (averageSecondsCount / SECONDS_PER_MINUTE > 0) {
-            result.append(String.format("%dм ", averageSecondsCount / SECONDS_PER_MINUTE));
-            averageSecondsCount -= (averageSecondsCount / SECONDS_PER_MINUTE) * SECONDS_PER_MINUTE;
+        if (totalDuration.toMinutesPart() > 0) {
+            result.append(String.format("%dм ", totalDuration.toMinutesPart()));
         }
 
         return result.toString().trim();
