@@ -34,12 +34,9 @@ public final class ImageUtils {
         try {
             Path fullPath = Path.of(filename.toString() + format.name().toLowerCase());
             File outputFile = fullPath.toFile();
-//            Files.createDirectories(fullpath.getParent());
-//            File outputfile = addExtensionToPath(filename, format.name().toLowerCase()).toFile();
             ImageIO.write(result, format.name().toLowerCase(), outputFile);
-//            LOGGER.info("Изображение сохранено в " + fullpath);
+
         } catch (IOException e) {
-//            LOGGER.error(e.getMessage());
         }
     }
 }

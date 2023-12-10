@@ -33,11 +33,11 @@ public class GammaCorrection implements ImageProcessor {
 
             Pixel pixel = image.getPixel((int) point.x(), (int) point.y());
 
-            int newR = (int) (pixel.getRed() * Math.pow(normal, 1.0 / GAMMA));
-            int newG = (int) (pixel.getGreen() * Math.pow(normal, 1.0 / GAMMA));
-            int newB = (int) (pixel.getBlue() * Math.pow(normal, 1.0 / GAMMA));
-
-            image.setPixel((int) point.x(), (int) point.y(), new Pixel(newR, newG, newB, pixel.getHitCount()));
+            synchronized (pixel) {
+                pixel.setR((int) (pixel.getRed() * Math.pow(normal, 1.0 / GAMMA)));
+                pixel.setG((int) (pixel.getGreen() * Math.pow(normal, 1.0 / GAMMA)));
+                pixel.setB((int) (pixel.getBlue() * Math.pow(normal, 1.0 / GAMMA)));
+            }
         }
     }
 }

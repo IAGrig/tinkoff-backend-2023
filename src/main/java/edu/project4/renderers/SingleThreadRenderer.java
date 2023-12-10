@@ -24,10 +24,11 @@ public class SingleThreadRenderer implements Renderer {
         List<AffineCoefficients> affines,
         int samples,
         short iterPerSample,
+        int symmetry,
         long seed
     ) {
-        final double XMIN = -1;
-        final double XMAX = 1;
+        final double XMIN = -1.777;
+        final double XMAX = 1.777;
         final double YMIN = -1;
         final double YMAX = 1;
 
@@ -40,29 +41,44 @@ public class SingleThreadRenderer implements Renderer {
                     variations.get(ThreadLocalRandom.current().nextInt(0, variations.size()));
                 point = transformation.apply(point); //
                 if (iteration >= 0 && world.contains(point)) {
-                    int x = canvas.width() - (int) (((XMAX - point.x()) / (XMAX - XMIN)) * canvas.width());
-                    int y = canvas.height() - (int) (((YMAX - point.y()) / (YMAX - YMIN)) * canvas.height());
-
-                    if (canvas.contains(x, y)) {
-                        int red;
-                        int green;
-                        int blue;
-                        Pixel pixel = canvas.getPixel(x, y);
-                        if (pixel.getHitCount() == 0) {
-                            red = affine.red();
-                            green = affine.green();
-                            blue = affine.blue();
-                        } else {
-                            red = (pixel.getRed() + affine.red()) / 2;
-                            green = (pixel.getGreen() + affine.green()) / 2;
-                            blue = (pixel.getBlue() + affine.blue()) / 2;
+                    double theta2 = 0.0;
+                    for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
+                        Point rotatedPoint = getRotatedPoint(point, theta2);
+                        if (!world.contains(rotatedPoint)) {
+                            continue;
                         }
 
-                        canvas.setPixel(x, y, new Pixel(red, green, blue, pixel.getHitCount() + 1));
+                        int x = canvas.width() - (int) (((XMAX - rotatedPoint.x()) / (XMAX - XMIN)) * canvas.width());
+                        int y = canvas.height() - (int) (((YMAX - rotatedPoint.y()) / (YMAX - YMIN)) * canvas.height());
+
+                        if (canvas.contains(x, y)) {
+                            int red;
+                            int green;
+                            int blue;
+                            Pixel pixel = canvas.getPixel(x, y);
+                            synchronized (pixel) {
+                                if (pixel.getHitCount() == 0) {
+                                    pixel.setR(affine.red());
+                                    pixel.setG(affine.green());
+                                    pixel.setB(affine.blue());
+                                } else {
+                                    pixel.setR((pixel.getRed() + affine.red()) / 2);
+                                    pixel.setG((pixel.getGreen() + affine.green()) / 2);
+                                    pixel.setB((pixel.getBlue() + affine.blue()) / 2);
+                                }
+                                pixel.incrementHitCount();
+                            }
+                        }
                     }
                 }
             }
         }
         return canvas;
+    }
+
+    private Point getRotatedPoint(Point point, double theta2) {
+        double x = point.x() * Math.cos(theta2) - point.y() * Math.sin(theta2);
+        double y = point.x() * Math.sin(theta2) + point.y() * Math.cos(theta2);
+        return new Point(x, y);
     }
 }

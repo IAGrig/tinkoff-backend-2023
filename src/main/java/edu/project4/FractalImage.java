@@ -23,7 +23,4 @@ public record FractalImage(Pixel[][] data, int width, int height) {
         return data[y][x];
     }
 
-    public void setPixel(int x, int y, Pixel pixel) {
-        data[y][x] = pixel;
-    }
 }

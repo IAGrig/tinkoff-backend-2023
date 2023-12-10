@@ -15,6 +15,7 @@ public interface Renderer {
         List<AffineCoefficients> affines,
         int samples,
         short iterPerSample,
+        int symmetry,
         long seed
     );
 }
