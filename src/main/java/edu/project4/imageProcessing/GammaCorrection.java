@@ -7,7 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GammaCorrection implements ImageProcessor {
-    public static final double GAMMA = 1.9;
+    public static double GAMMA;
+
+    public GammaCorrection(double gamma) {
+        GAMMA = gamma;
+    }
 
     @Override
     public void process(FractalImage image) {
