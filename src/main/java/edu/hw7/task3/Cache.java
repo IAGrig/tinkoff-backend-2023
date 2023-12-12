@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Cache implements PersonDatabase{
-    private HashMap<Integer, Person> idPersonHashMap;
-    private HashMap<String, List<Person>> namePersonHashMap;
-    private HashMap<String, List<Person>> addressPersonHashMap;
-    private HashMap<String, List<Person>> phonePersonHashMap;
+public class Cache implements PersonDatabase {
+    private final HashMap<Integer, Person> idPersonHashMap;
+    private final HashMap<String, List<Person>> namePersonHashMap;
+    private final HashMap<String, List<Person>> addressPersonHashMap;
+    private final HashMap<String, List<Person>> phonePersonHashMap;
 
-
-    public Cache(){
+    public Cache() {
         idPersonHashMap = new HashMap<>();
         namePersonHashMap = new HashMap<>();
         addressPersonHashMap = new HashMap<>();
@@ -20,7 +19,6 @@ public class Cache implements PersonDatabase{
 
     @Override
     public synchronized void add(Person person) {
-
         idPersonHashMap.put(person.id(), person);
         List<Person> namesList = namePersonHashMap.getOrDefault(person.name(), new ArrayList<>());
         List<Person> addressesList = addressPersonHashMap.getOrDefault(person.address(), new ArrayList<>());
@@ -29,14 +27,25 @@ public class Cache implements PersonDatabase{
         addressesList.add(person);
         phonesList.add(person);
 
-        namePersonHashMap.put(person.name(), namesList);
-        addressPersonHashMap.put(person.address(), addressesList);
-        phonePersonHashMap.put(person.phoneNumber(), phonesList);
+        // if we got List as default we need to put it in HashMap
+        if (namesList.size() == 1) {
+            namePersonHashMap.put(person.name(), namesList);
+        }
+        if (addressesList.size() == 1) {
+            addressPersonHashMap.put(person.name(), addressesList);
+        }
+        if (phonesList.size() == 1) {
+            phonePersonHashMap.put(person.name(), phonesList);
+        }
+
     }
 
     @Override
     public synchronized void delete(int id) {
         Person person = idPersonHashMap.get(id);
+        if (person == null) {
+            return;
+        }
         idPersonHashMap.remove(person.id());
         namePersonHashMap.remove(person.name());
         addressPersonHashMap.remove(person.address());
@@ -54,7 +63,7 @@ public class Cache implements PersonDatabase{
     }
 
     @Override
-    public synchronized List<Person> findByPhone(String phone) {
+    public List<Person> findByPhone(String phone) {
         return phonePersonHashMap.get(phone);
     }
 }
