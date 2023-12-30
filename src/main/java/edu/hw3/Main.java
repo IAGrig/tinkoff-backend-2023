@@ -124,7 +124,7 @@ public class Main {
             return map.get(character);
         } else if ('A' <= character && character <= 'Z') {
             int capitalizingDiff = 'a' - 'A'; // 97 - 65
-            return (map.get(character - capitalizingDiff));
+            return Character.toUpperCase(map.get((char) (character + capitalizingDiff)));
         } else {
             return character;
         }
