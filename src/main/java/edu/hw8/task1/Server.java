@@ -1,33 +1,52 @@
 package edu.hw8.task1;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private final int threadsCount = 5;
-    private final ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
-    private final QuotesDB quotesDB = new QuotesDB();
+    private final int threadsCount;
+    private final ExecutorService executorService;
+    private final QuotesDB quotesDB;
     private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+
+    public Server(int maxConnections) {
+        this.threadsCount = maxConnections;
+        this.executorService = Executors.newFixedThreadPool(threadsCount);
+        this.quotesDB = new QuotesDB();
+    }
 
     public void start(int port) throws IOException {
-        quotesDB.loadBase();
         serverSocket = new ServerSocket(port);
-//        Callable<String> callable = (String word) -> quotesDB.getQuote(word);
         while (true) {
-            clientSocket = serverSocket.accept();
-            in = new ObjectInputStream(clientSocket.getInputStream());
-            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            Socket clientSocket = serverSocket.accept();
+            executorService.execute(() -> handleClient(clientSocket));
+        }
+    }
 
-//            Future<String> future = executorService.submit(callable("123"));
+    public void stop() throws IOException {
+        executorService.shutdown();
+        serverSocket.close();
+    }
 
+    private void handleClient(Socket clientSocket) {
+        try (
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))
+        ) {
+            String query = reader.readLine();
+            String answer = quotesDB.getQuote(query);
+            writer.write(answer);
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

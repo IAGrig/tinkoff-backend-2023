@@ -5,9 +5,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class QuotesDBTest {
     @Test
-    public void quotesTest(){
+    public void quotesTest() {
         String phrase1 = "Не переходи на личности там, где их нет";
-        String phrase2 = "А я тебе говорил, что ты глупый? Так вот, я забираю свои слова обратно... Ты просто бог идиотизма.";
+        String phrase2 =
+            "А я тебе говорил, что ты глупый? Так вот, я забираю свои слова обратно... Ты просто бог идиотизма.";
         QuotesDB db = new QuotesDB();
         assertThat(db.getQuote("123")).isEqualTo("Сам такой!");
         db.addQuote(phrase1);
