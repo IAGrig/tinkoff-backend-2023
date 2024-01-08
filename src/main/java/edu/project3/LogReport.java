@@ -3,15 +3,16 @@ package edu.project3;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LogReport {
     private final List<String> files;
     private final OffsetDateTime fromDate;
     private final OffsetDateTime toDate;
-    private final HashMap<String, Integer> requestedResources;
-    private final HashMap<Integer, Integer> answerCodes;
-    private final HashMap<String, Integer> httpMethods;
-    private final HashMap<String, Integer> userAgents;
+    private final Map<String, Integer> requestedResources;
+    private final Map<Integer, Integer> answerCodes;
+    private final Map<String, Integer> httpMethods;
+    private final Map<String, Integer> userAgents;
     private int requestsCount;
     private int answersCount;
     private int totalAnswersSize;
@@ -27,6 +28,9 @@ public class LogReport {
     }
 
     public void addRequest(String requestedResource) {
+        if (requestedResource == null) {
+            throw new IllegalArgumentException();
+        }
         requestsCount++;
         requestedResources.put(requestedResource, requestedResources.getOrDefault(requestedResource, 0) + 1);
     }
@@ -38,10 +42,16 @@ public class LogReport {
     }
 
     public void addHttpMethod(String httpMethod) {
+        if (httpMethod == null) {
+            throw new IllegalArgumentException();
+        }
         httpMethods.put(httpMethod, httpMethods.getOrDefault(httpMethod, 0) + 1);
     }
 
     public void addUserAgent(String userAgent) {
+        if (userAgent == null) {
+            throw new IllegalArgumentException();
+        }
         userAgents.put(userAgent, userAgents.getOrDefault(userAgent, 0) + 1);
     }
 
@@ -62,22 +72,25 @@ public class LogReport {
     }
 
     public int getAverageAnswerSize() {
+        if (answersCount == 0) {
+            return 0;
+        }
         return totalAnswersSize / answersCount;
     }
 
-    public HashMap<String, Integer> getRequestedResources() {
+    public Map<String, Integer> getRequestedResources() {
         return requestedResources;
     }
 
-    public HashMap<Integer, Integer> getAnswerCodes() {
+    public Map<Integer, Integer> getAnswerCodes() {
         return answerCodes;
     }
 
-    public HashMap<String, Integer> getHttpMethods() {
+    public Map<String, Integer> getHttpMethods() {
         return httpMethods;
     }
 
-    public HashMap<String, Integer> getUserAgents() {
+    public Map<String, Integer> getUserAgents() {
         return userAgents;
     }
 }

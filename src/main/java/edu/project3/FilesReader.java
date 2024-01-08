@@ -15,14 +15,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class FilesReader {
-    String path;
+    private final static String URLRegexPattern = "^https?://.*\\..*";
+    private final String path;
 
     public FilesReader(String path) {
         this.path = path;
     }
 
     public Stream<String> lines() {
-        if (Pattern.matches("^https?://.*\\..*", path)) {
+        if (Pattern.matches(URLRegexPattern, path)) {
             return getLinesFromURL(path);
         } else {
             return getLinesFromFilePattern(path);
@@ -30,7 +31,7 @@ public class FilesReader {
     }
 
     public List<String> getPaths() {
-        if (Pattern.matches("^https?://.*\\..*", path)) {
+        if (Pattern.matches(URLRegexPattern, path)) {
             return List.of(path);
         } else {
             try {
@@ -45,18 +46,22 @@ public class FilesReader {
     }
 
     private Stream<String> getLinesFromURL(String path) {
+        if (path == null) {
+            throw new IllegalArgumentException();
+        }
         try {
             URL url = new URI(path).toURL();
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             return reader.lines();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
     private Stream<String> getLinesFromFilePattern(String path) {
+        if (path == null) {
+            throw new IllegalArgumentException();
+        }
         Stream<String> result = Stream.empty();
         try {
             PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + path);

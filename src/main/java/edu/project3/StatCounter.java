@@ -22,6 +22,9 @@ public class StatCounter {
     }
 
     public LogReport getReport(Stream<String> fileLines) {
+        if (fileLines == null) {
+            throw new IllegalArgumentException();
+        }
         fileLines.forEach(this::handleLine);
         return report;
     }
