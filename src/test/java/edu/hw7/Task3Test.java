@@ -16,6 +16,29 @@ public class Task3Test {
     final static String baseAddress = "Kronverskiy pr. 49, room: ";
     final static String basePhone = "+7999999999";
 
+    private static void addRandomPerson(PersonDatabase database, int randomBound) {
+        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
+        String name = baseName + id;
+        String address = baseAddress + id;
+        String phone = basePhone + id;
+        database.add(new Person(id, name, address, phone));
+    }
+
+    private static void deleteRandomPerson(PersonDatabase database, int randomBound) {
+        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
+        database.delete(id);
+    }
+
+    private static boolean checkRandomPerson(PersonDatabase database, int randomBound) {
+        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
+        String name = baseName + id;
+        String address = baseAddress + id;
+        String phone = basePhone + id;
+
+        return (database.findByName(name) == null) ==
+            (database.findByAddress(address) == null) ==
+            (database.findByPhone(phone) == null);
+    }
 
     @DisplayName("Задание 3")
     @Test
@@ -31,7 +54,6 @@ public class Task3Test {
         Stream.generate(() -> new Thread(() -> {
             deleteRandomPerson(cache, threadsCount);
         })).limit(threadsCount).forEach(Thread::start);
-
 
         Stream.generate(() -> new Thread(() -> {
             assertThat(checkRandomPerson(cache, threadsCount)).isTrue();
@@ -53,33 +75,8 @@ public class Task3Test {
             deleteRandomPerson(cache, threadsCount);
         })).limit(threadsCount).forEach(Thread::start);
 
-
         Stream.generate(() -> new Thread(() -> {
             assertThat(checkRandomPerson(cache, threadsCount)).isTrue();
         })).limit(threadsCount).forEach(Thread::start);
-    }
-
-    private static void addRandomPerson(PersonDatabase database, int randomBound){
-        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
-        String name = baseName + id;
-        String address = baseAddress + id;
-        String phone = basePhone + id;
-        database.add(new Person(id, name, address, phone));
-    }
-
-    private static void deleteRandomPerson(PersonDatabase database, int randomBound){
-        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
-        database.delete(id);
-    }
-
-    private static boolean checkRandomPerson(PersonDatabase database, int randomBound){
-        int id = ThreadLocalRandom.current().nextInt(1, randomBound);
-        String name = baseName + id;
-        String address = baseAddress + id;
-        String phone = basePhone + id;
-
-        return (database.findByName(name) == null) ==
-            (database.findByAddress(address) == null) ==
-            (database.findByPhone(phone) == null);
     }
 }

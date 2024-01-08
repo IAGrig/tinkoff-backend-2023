@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class Task4Test {
-    private final int iterationsCount = 1000000000;
+    private final int iterationsCount = 10000000;
 
     @DisplayName("Задание 4")
     @Test

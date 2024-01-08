@@ -3,67 +3,68 @@ package edu.hw7.task3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cache implements PersonDatabase {
-    private final HashMap<Integer, Person> idPersonHashMap;
-    private final HashMap<String, List<Person>> namePersonHashMap;
-    private final HashMap<String, List<Person>> addressPersonHashMap;
-    private final HashMap<String, List<Person>> phonePersonHashMap;
+    private final Map<Integer, Person> idPersonMap;
+    private final Map<String, List<Person>> namePersonMap;
+    private final Map<String, List<Person>> addressPersonMap;
+    private final Map<String, List<Person>> phonePersonMap;
 
     public Cache() {
-        idPersonHashMap = new HashMap<>();
-        namePersonHashMap = new HashMap<>();
-        addressPersonHashMap = new HashMap<>();
-        phonePersonHashMap = new HashMap<>();
+        idPersonMap = new HashMap<>();
+        namePersonMap = new HashMap<>();
+        addressPersonMap = new HashMap<>();
+        phonePersonMap = new HashMap<>();
     }
 
     @Override
     public synchronized void add(Person person) {
-        idPersonHashMap.put(person.id(), person);
-        List<Person> namesList = namePersonHashMap.getOrDefault(person.name(), new ArrayList<>());
-        List<Person> addressesList = addressPersonHashMap.getOrDefault(person.address(), new ArrayList<>());
-        List<Person> phonesList = phonePersonHashMap.getOrDefault(person.phoneNumber(), new ArrayList<>());
+        idPersonMap.put(person.id(), person);
+        List<Person> namesList = namePersonMap.getOrDefault(person.name(), new ArrayList<>());
+        List<Person> addressesList = addressPersonMap.getOrDefault(person.address(), new ArrayList<>());
+        List<Person> phonesList = phonePersonMap.getOrDefault(person.phoneNumber(), new ArrayList<>());
         namesList.add(person);
         addressesList.add(person);
         phonesList.add(person);
 
         // if we got List as default we need to put it in HashMap
         if (namesList.size() == 1) {
-            namePersonHashMap.put(person.name(), namesList);
+            namePersonMap.put(person.name(), namesList);
         }
         if (addressesList.size() == 1) {
-            addressPersonHashMap.put(person.name(), addressesList);
+            addressPersonMap.put(person.name(), addressesList);
         }
         if (phonesList.size() == 1) {
-            phonePersonHashMap.put(person.name(), phonesList);
+            phonePersonMap.put(person.name(), phonesList);
         }
 
     }
 
     @Override
     public synchronized void delete(int id) {
-        Person person = idPersonHashMap.get(id);
+        Person person = idPersonMap.get(id);
         if (person == null) {
             return;
         }
-        idPersonHashMap.remove(person.id());
-        namePersonHashMap.remove(person.name());
-        addressPersonHashMap.remove(person.address());
-        phonePersonHashMap.remove(person.phoneNumber());
+        idPersonMap.remove(person.id());
+        namePersonMap.remove(person.name());
+        addressPersonMap.remove(person.address());
+        phonePersonMap.remove(person.phoneNumber());
     }
 
     @Override
     public List<Person> findByName(String name) {
-        return namePersonHashMap.get(name);
+        return namePersonMap.get(name);
     }
 
     @Override
     public List<Person> findByAddress(String address) {
-        return addressPersonHashMap.get(address);
+        return addressPersonMap.get(address);
     }
 
     @Override
     public List<Person> findByPhone(String phone) {
-        return phonePersonHashMap.get(phone);
+        return phonePersonMap.get(phone);
     }
 }

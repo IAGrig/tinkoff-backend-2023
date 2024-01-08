@@ -1,6 +1,7 @@
 package edu.hw7.task4;
 
 public class MonteCarlo {
+    private static final double MONTE_CARLO_SCALE_CONST = 4.0;
     private int circleCount;
     private int totalCount;
 
@@ -18,6 +19,6 @@ public class MonteCarlo {
             }
             totalCount++;
         }
-        return 4 * (circleCount * 1.0 / totalCount);
+        return MONTE_CARLO_SCALE_CONST * (circleCount * 1.0 / totalCount);
     }
 }

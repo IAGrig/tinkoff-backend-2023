@@ -15,20 +15,22 @@ public class Task1Test {
         Counter counter = new Counter();
         assertThat(counter.getValue()).isEqualTo(0);
         ArrayList<Thread> threads = new ArrayList<>();
-        for (int i = 0; i < threadsCount; i++){
+        for (int i = 0; i < threadsCount; i++) {
             threads.add(new Thread(() -> {
-                for (int iteration = 0; iteration < iterationsPerThread; iteration++) counter.increment();
+                for (int iteration = 0; iteration < iterationsPerThread; iteration++) {
+                    counter.increment();
+                }
             }));
         }
 
         threads.stream().forEach(Thread::start);
 
         try {
-            for (int i = 0; i < threadsCount; i++){
+            for (int i = 0; i < threadsCount; i++) {
                 threads.get(i).join();
             }
         } catch (InterruptedException e) {
         }
-        assertThat(counter.getValue()).isEqualTo(threadsCount*iterationsPerThread);
+        assertThat(counter.getValue()).isEqualTo(threadsCount * iterationsPerThread);
     }
 }

@@ -9,6 +9,7 @@ public class Task2Test {
     @DisplayName("Задание 2")
     @Test
     public void task2Test() {
+        assertThat(ParallelFactorial.calculateFactorial(0)).isEqualTo(1);
         assertThat(ParallelFactorial.calculateFactorial(1)).isEqualTo(1);
         assertThat(ParallelFactorial.calculateFactorial(2)).isEqualTo(2);
         assertThat(ParallelFactorial.calculateFactorial(3)).isEqualTo(6);

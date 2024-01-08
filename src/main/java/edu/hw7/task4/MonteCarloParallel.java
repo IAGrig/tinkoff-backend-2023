@@ -3,6 +3,7 @@ package edu.hw7.task4;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MonteCarloParallel {
+    private static final double MONTE_CARLO_SCALE_CONST = 4.0;
     private final int threadsCount = 8;
     private int circleCount;
     private int totalCount;
@@ -17,18 +18,18 @@ public class MonteCarloParallel {
         Thread[] threads = new Thread[threadsCount];
         for (int threadIndex = 0; threadIndex < threadsCount; threadIndex++) {
             Thread thread = new Thread(() -> {
-                int localСircleCount = 0;
+                int localCircleCount = 0;
                 int localTotalCount = 0;
                 for (int iteration = 0; iteration < iterationsPart; iteration++) {
                     double x = ThreadLocalRandom.current().nextDouble();
                     double y = ThreadLocalRandom.current().nextDouble();
                     if (x * x + y * y < 1.0) {
-                        localСircleCount++;
+                        localCircleCount++;
                     }
                     localTotalCount++;
                 }
                 synchronized (this) {
-                    circleCount += localСircleCount;
+                    circleCount += localCircleCount;
                     totalCount += localTotalCount;
                 }
 
@@ -43,6 +44,6 @@ public class MonteCarloParallel {
                 throw new RuntimeException(e);
             }
         }
-        return 4 * (circleCount * 1.0 / totalCount);
+        return MONTE_CARLO_SCALE_CONST * (circleCount * 1.0 / totalCount);
     }
 }
