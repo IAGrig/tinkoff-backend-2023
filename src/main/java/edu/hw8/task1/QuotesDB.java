@@ -32,8 +32,8 @@ public class QuotesDB {
     }
 
     public String getQuote(String keyword) {
-        keyword = removeSymbols(keyword).toLowerCase();
-        CopyOnWriteArrayList<String> arrayList = quotes.get(keyword);
+        String cleanKeyword = removeSymbols(keyword).toLowerCase();
+        CopyOnWriteArrayList<String> arrayList = quotes.get(cleanKeyword);
         if (arrayList == null) {
             return defaultAnswer;
         }
