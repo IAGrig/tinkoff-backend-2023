@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class Generator {
+    private Generator() {
+    }
+
     public static Maze generate(int height, int width) {
         if (height <= 0 || width <= 0) {
             throw new IllegalArgumentException();

@@ -7,9 +7,9 @@ import org.apache.logging.log4j.Logger;
 public class ConsoleHandler {
 
     private final static Logger LOGGER = LogManager.getLogger();
-    public final char EXIT_CHAR = '!';
+    public final static char EXIT_CHAR = '!';
     private final Scanner scanner = new Scanner(System.in);
-    private final String EXIT_COMMAND = "!EXIT";
+    private final static String EXIT_COMMAND = "!EXIT";
 
     public void printGreeting() {
         LOGGER.info("Welcome to HangmanConsoleGame!");

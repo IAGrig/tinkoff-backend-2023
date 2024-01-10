@@ -1,6 +1,13 @@
 package edu.project2;
 
 public class Renderer {
+    private static final String HORIZONTAL_DIVIDER_CLOSED = "---+";
+    private static final String HORIZONTAL_DIVIDER_OPEN = "   +";
+    private static final String EMPTY_CELL = "   ";
+
+    private Renderer() {
+    }
+
     public static String render(Maze maze) {
         if (maze == null) {
             throw new IllegalArgumentException();
@@ -11,9 +18,9 @@ public class Renderer {
             for (int x = 0; x < maze.width; x++) {
                 Cell currentCell = maze.grid[y][x];
                 if (currentCell.upperWall) {
-                    string.append("---+");
+                    string.append(HORIZONTAL_DIVIDER_CLOSED);
                 } else {
-                    string.append("   +");
+                    string.append(HORIZONTAL_DIVIDER_OPEN);
                 }
             }
             string.append("\n");
@@ -24,14 +31,14 @@ public class Renderer {
                 } else {
                     string.append(" ");
                 }
-                string.append("   ");
+                string.append(EMPTY_CELL);
             }
             string.append("|");
             string.append("\n");
         }
         string.append('+');
         for (int x = 0; x < maze.width; x++) {
-            string.append("---+");
+            string.append(HORIZONTAL_DIVIDER_CLOSED);
         }
         return string.toString();
     }
@@ -50,9 +57,9 @@ public class Renderer {
             for (int x = 0; x < maze.width; x++) {
                 Cell currentCell = maze.grid[y][x];
                 if (currentCell.upperWall) {
-                    string.append("---+");
+                    string.append(HORIZONTAL_DIVIDER_CLOSED);
                 } else {
-                    string.append("   +");
+                    string.append(HORIZONTAL_DIVIDER_OPEN);
                 }
             }
             string.append("\n");
@@ -66,7 +73,7 @@ public class Renderer {
                 if (pathMatrix[y][x]) {
                     string.append(" # ");
                 } else {
-                    string.append("   ");
+                    string.append(EMPTY_CELL);
                 }
             }
             string.append("|");
@@ -74,7 +81,7 @@ public class Renderer {
         }
         string.append('+');
         for (int x = 0; x < maze.width; x++) {
-            string.append("---+");
+            string.append(HORIZONTAL_DIVIDER_CLOSED);
         }
         return string.toString();
     }

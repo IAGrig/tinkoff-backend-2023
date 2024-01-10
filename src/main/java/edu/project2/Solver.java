@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Solver {
+    private Solver() {
+    }
+
     public static Coordinate[] solve(Maze maze, Coordinate start, Coordinate end) {
         if (maze == null || start == null || end == null) {
             throw new IllegalArgumentException();
