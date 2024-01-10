@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 public class Solver {
     public static Coordinate[] solve(Maze maze, Coordinate start, Coordinate end) {
+        if (maze == null || start == null || end == null) {
+            throw new IllegalArgumentException();
+        }
         Coordinate[] path = new Coordinate[0];
         HashMap<Coordinate, Coordinate> parents = new HashMap<>();
         boolean[][] used = new boolean[maze.height][maze.width];

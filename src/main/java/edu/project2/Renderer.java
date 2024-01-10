@@ -2,6 +2,9 @@ package edu.project2;
 
 public class Renderer {
     public static String render(Maze maze) {
+        if (maze == null) {
+            throw new IllegalArgumentException();
+        }
         StringBuilder string = new StringBuilder();
         for (int y = 0; y < maze.height; y++) {
             string.append("+");
@@ -34,6 +37,9 @@ public class Renderer {
     }
 
     public static String render(Maze maze, Coordinate[] path) {
+        if (maze == null || path == null) {
+            throw new IllegalArgumentException();
+        }
         boolean[][] pathMatrix = new boolean[maze.height][maze.width];
         for (Coordinate coordinate : path) {
             pathMatrix[coordinate.row()][coordinate.col()] = true;
