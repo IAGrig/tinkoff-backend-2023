@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class Generator {
+    private Generator() {
+    }
+
     public static Maze generate(int height, int width) {
+        if (height <= 0 || width <= 0) {
+            throw new IllegalArgumentException();
+        }
         Maze maze = new Maze(height, width);
-        Stack<Cell> stack = new Stack();
+        Stack<Cell> stack = new Stack<>();
         HashMap<Coordinate, Boolean> used = new HashMap<>();
         stack.add(maze.grid[0][0]);
         Cell currentCell = maze.grid[0][0];
@@ -35,7 +41,7 @@ public class Generator {
                     available.add(maze.grid[currentY + 1][currentX]);
                 }
             }
-            if (available.size() == 0) {
+            if (available.isEmpty()) {
                 currentCell = stack.pop();
                 continue;
             }
