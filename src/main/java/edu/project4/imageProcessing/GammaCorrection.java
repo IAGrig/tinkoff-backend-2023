@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GammaCorrection implements ImageProcessor {
-    public static double GAMMA;
+    public double gamma;
 
     public GammaCorrection(double gamma) {
-        GAMMA = gamma;
+        this.gamma = gamma;
     }
 
     @Override
@@ -38,9 +38,9 @@ public class GammaCorrection implements ImageProcessor {
             Pixel pixel = image.getPixel((int) point.x(), (int) point.y());
 
             synchronized (pixel) {
-                pixel.setR((int) (pixel.getRed() * Math.pow(normal, 1.0 / GAMMA)));
-                pixel.setG((int) (pixel.getGreen() * Math.pow(normal, 1.0 / GAMMA)));
-                pixel.setB((int) (pixel.getBlue() * Math.pow(normal, 1.0 / GAMMA)));
+                pixel.setR((int) (pixel.getRed() * Math.pow(normal, 1.0 / gamma)));
+                pixel.setG((int) (pixel.getGreen() * Math.pow(normal, 1.0 / gamma)));
+                pixel.setB((int) (pixel.getBlue() * Math.pow(normal, 1.0 / gamma)));
             }
         }
     }

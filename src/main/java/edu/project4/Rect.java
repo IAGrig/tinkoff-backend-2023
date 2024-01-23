@@ -8,8 +8,8 @@ public record Rect(double x, double y, double width, double height) {
     }
 
     public Point getRandomPoint() {
-        double x = ThreadLocalRandom.current().nextDouble(0, width);
-        double y = ThreadLocalRandom.current().nextDouble(0, width);
-        return new Point(x, y);
+        double randomX = ThreadLocalRandom.current().nextDouble(0, width);
+        double randomY = ThreadLocalRandom.current().nextDouble(0, width);
+        return new Point(randomX, randomY);
     }
 }

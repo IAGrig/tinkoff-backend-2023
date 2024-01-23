@@ -37,7 +37,7 @@ public class FractalImageTest {
 
         FractalImage fractalImage = FractalImage.create(1980, 1080);
         Rect world = new Rect(-10, -10, 20,20);
-        renderer.render(fractalImage, world, transformations, affines,30000, (short) 150, 16, 123);
+        renderer.render(fractalImage, world, transformations, affines,10000, (short) 300, 16);
         ImageProcessor gamma = new GammaCorrection(1.9);
         gamma.process(fractalImage);
 

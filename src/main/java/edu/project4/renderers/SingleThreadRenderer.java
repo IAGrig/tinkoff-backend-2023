@@ -24,17 +24,17 @@ public class SingleThreadRenderer implements Renderer {
         List<AffineCoefficients> affines,
         int samples,
         short iterPerSample,
-        int symmetry,
-        long seed
+        int symmetry
     ) {
         final double XMIN = -1.777;
         final double XMAX = 1.777;
         final double YMIN = -1;
         final double YMAX = 1;
+        final int iterationsStart = -20;
 
         for (int sample = 0; sample < samples; sample++) {
             Point point = world.getRandomPoint();
-            for (int iteration = -20; iteration < iterPerSample; iteration++) {
+            for (int iteration = iterationsStart; iteration < iterPerSample; iteration++) {
                 AffineCoefficients affine = affines.get(ThreadLocalRandom.current().nextInt(0, affines.size()));
                 point = applyAffineTransformation(point, affine);
                 Transformation transformation =
