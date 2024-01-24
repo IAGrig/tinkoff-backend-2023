@@ -29,9 +29,12 @@ public class StatCounter {
         return report;
     }
 
+    @SuppressWarnings("MagicNumber")
     private void handleLine(String line) {
-        Pattern pattern = Pattern.compile(
-            "^((?:\\d{1,3}\\.){3}\\d{1,3})\\s-\\s((?:\\d{1,3}\\.){3}\\d{1,3}|-)\\s\\[(.*)\\]\\s\\\"(.+?)\\\"\\s(\\d{3})\\s(\\d*)\\s\\\"(.+?)\\\"\\s\\\"(.+?)\\\"$");
+        final String LOG_PARSING_REGEX_PATERN =
+            "^((?:\\d{1,3}\\.){3}\\d{1,3})\\s-\\s((?:\\d{1,3}\\.){3}\\d{1,3}|-)\\s\\[(.*)\\]\\s\\\"(.+?)"
+                + "\\\"\\s(\\d{3})\\s(\\d*)\\s\\\"(.+?)\\\"\\s\\\"(.+?)\\\"$";
+        Pattern pattern = Pattern.compile(LOG_PARSING_REGEX_PATERN);
         Matcher matcher = pattern.matcher(line);
 
         OffsetDateTime dateTime;

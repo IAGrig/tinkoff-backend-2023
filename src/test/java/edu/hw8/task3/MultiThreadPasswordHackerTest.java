@@ -14,7 +14,8 @@ public class MultiThreadPasswordHackerTest {
 
     @Test
     public void hackTest() {
-        MultiThreadPasswordHacker passwordHacker = new MultiThreadPasswordHacker(leakedPasswords,
+        MultiThreadPasswordHacker passwordHacker = new MultiThreadPasswordHacker(
+            leakedPasswords,
             alphabet,
             minPasswordsLength,
             maxPasswordsLength,

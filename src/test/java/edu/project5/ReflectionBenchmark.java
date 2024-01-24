@@ -23,12 +23,14 @@ import org.openjdk.jmh.runner.options.TimeValue;
 
 @State(Scope.Thread)
 public class ReflectionBenchmark {
-
+    private static final String METHOD_NAME = "name";
+    private static final int TEST_TIME = 5;
     private Student student;
     private Method method;
     private MethodHandle methodHandle;
     private Function<Student, String> lambdaFunction;
 
+    @SuppressWarnings("UncommentedMain")
     public static void main(String[] args) throws RunnerException {
         Options options = new OptionsBuilder()
             .include(ReflectionBenchmark.class.getSimpleName())
@@ -39,9 +41,9 @@ public class ReflectionBenchmark {
             .forks(1)
             .warmupForks(1)
             .warmupIterations(1)
-            .warmupTime(TimeValue.seconds(5))
+            .warmupTime(TimeValue.seconds(TEST_TIME))
             .measurementIterations(1)
-            .measurementTime(TimeValue.seconds(5))
+            .measurementTime(TimeValue.seconds(TEST_TIME))
             .build();
 
         new Runner(options).run();
@@ -51,11 +53,11 @@ public class ReflectionBenchmark {
     public void setup() throws Throwable {
         student = new Student("Alexander", "Biryukov");
         // reflection
-        method = Student.class.getDeclaredMethod("name");
+        method = Student.class.getDeclaredMethod(METHOD_NAME);
         method.setAccessible(true);
         // method handle
         final MethodHandles.Lookup lookup = MethodHandles.lookup();
-        methodHandle = lookup.findVirtual(Student.class, "name", MethodType.methodType(String.class));
+        methodHandle = lookup.findVirtual(Student.class, METHOD_NAME, MethodType.methodType(String.class));
         // Lambda meta factory
         CallSite callSite = LambdaMetafactory.metafactory(
             lookup,
@@ -93,6 +95,5 @@ public class ReflectionBenchmark {
     }
 
     private record Student(String name, String surname) {
-
     }
 }

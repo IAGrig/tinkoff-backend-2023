@@ -3,7 +3,6 @@ package edu.hw5;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
-import java.util.stream.IntStream;
 
 public class Task1 {
     public String calculateAverageTime(String[] strings) {

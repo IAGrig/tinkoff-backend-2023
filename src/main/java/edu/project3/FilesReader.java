@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class FilesReader {
-    private final static String URLRegexPattern = "^https?://.*\\..*";
+    private final static String URL_REGEX_PATTERN = "^https?://.*\\..*";
+    private final static String PATH_PREFIX = "glob:";
     private final String path;
 
     public FilesReader(String path) {
@@ -23,7 +24,7 @@ public class FilesReader {
     }
 
     public Stream<String> lines() {
-        if (Pattern.matches(URLRegexPattern, path)) {
+        if (Pattern.matches(URL_REGEX_PATTERN, path)) {
             return getLinesFromURL(path);
         } else {
             return getLinesFromFilePattern(path);
@@ -31,11 +32,11 @@ public class FilesReader {
     }
 
     public List<String> getPaths() {
-        if (Pattern.matches(URLRegexPattern, path)) {
+        if (Pattern.matches(URL_REGEX_PATTERN, path)) {
             return List.of(path);
         } else {
             try {
-                PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + path);
+                PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher(PATH_PREFIX + path);
                 Stream<Path> pathStream = Files.find(Path.of(""), Integer.MAX_VALUE, (p, f) -> pathMatcher.matches(p));
                 return pathStream.map(Path::toString).toList();
             } catch (IOException e) {
@@ -64,7 +65,7 @@ public class FilesReader {
         }
         Stream<String> result = Stream.empty();
         try {
-            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + path);
+            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher(PATH_PREFIX + path);
             Stream<Path> pathStream = Files.find(Path.of(""), Integer.MAX_VALUE, (p, f) -> pathMatcher.matches(p));
             result = pathStream.flatMap(p -> {
                 try {

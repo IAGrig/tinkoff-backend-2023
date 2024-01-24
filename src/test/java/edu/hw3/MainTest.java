@@ -1,12 +1,12 @@
 package edu.hw3;
 
+import edu.hw3.stocks.Stock;
+import edu.hw3.stocks.StockMarket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-import edu.hw3.stocks.Stock;
-import edu.hw3.stocks.StockMarket;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -116,7 +116,7 @@ public class MainTest {
     @MethodSource("parseContactsTestsProvider")
     public void parseContactsTest(String[] namesArray, String sortingMode, String[] expected) {
         Main main = new Main();
-        var actual = main.parseContacts(namesArray, sortingMode);
+        var actual = Main.parseContacts(namesArray, sortingMode);
         assertThat(actual.toString()).isEqualTo(Arrays.toString(expected));
     }
 

@@ -4,13 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Task6 {
-    public boolean isSubstringOf(String S, String T) {
+    public boolean isSubstringOf(String s, String t) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (char c : S.toCharArray()){
+        for (char c : s.toCharArray()) {
             stringBuilder.append(Pattern.quote(Character.valueOf(c).toString())).append(".*");
         }
         Pattern pattern = Pattern.compile(stringBuilder.toString());
-        Matcher matcher = pattern.matcher(T);
+        Matcher matcher = pattern.matcher(t);
         return matcher.find();
     }
 }

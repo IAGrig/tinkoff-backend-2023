@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public abstract class DateHandler {
+    protected static final int CORRECT_DATE_PARTS_COUNT = 3;
     protected DateHandler next;
 
     public void setNextHandler(DateHandler dateHandler) {
