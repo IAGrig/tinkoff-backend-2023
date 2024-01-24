@@ -6,6 +6,10 @@ import java.lang.annotation.Annotation;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ParametersGenerator {
+
+    private ParametersGenerator() {
+    }
+
     public static int generateInt(Annotation[] annotations) {
         Annotation minAnnotation = null;
         Annotation maxAnnotation = null;
@@ -17,8 +21,8 @@ public class ParametersGenerator {
                 maxAnnotation = annotation;
             }
         }
-        int MIN = minAnnotation == null ? Integer.MIN_VALUE : (int) ((Min) minAnnotation).value();
-        int MAX = maxAnnotation == null ? Integer.MAX_VALUE : (int) ((Max) maxAnnotation).value();
+        final int MIN = minAnnotation == null ? Integer.MIN_VALUE : (int) ((Min) minAnnotation).value();
+        final int MAX = maxAnnotation == null ? Integer.MAX_VALUE : (int) ((Max) maxAnnotation).value();
         return ThreadLocalRandom.current().nextInt(MIN, MAX);
     }
 
@@ -33,8 +37,8 @@ public class ParametersGenerator {
                 maxAnnotation = annotation;
             }
         }
-        long MIN = minAnnotation == null ? Long.MIN_VALUE : ((Min) minAnnotation).value();
-        long MAX = maxAnnotation == null ? Long.MAX_VALUE : ((Max) maxAnnotation).value();
+        final long MIN = minAnnotation == null ? Long.MIN_VALUE : ((Min) minAnnotation).value();
+        final long MAX = maxAnnotation == null ? Long.MAX_VALUE : ((Max) maxAnnotation).value();
         return ThreadLocalRandom.current().nextLong(MIN, MAX);
     }
 
@@ -49,8 +53,8 @@ public class ParametersGenerator {
                 maxAnnotation = annotation;
             }
         }
-        double MIN = minAnnotation == null ? Double.MIN_VALUE : ((Min) minAnnotation).value();
-        double MAX = maxAnnotation == null ? Double.MAX_VALUE : ((Max) maxAnnotation).value();
+        final double MIN = minAnnotation == null ? Double.MIN_VALUE : ((Min) minAnnotation).value();
+        final double MAX = maxAnnotation == null ? Double.MAX_VALUE : ((Max) maxAnnotation).value();
         return ThreadLocalRandom.current().nextDouble(MIN, MAX);
     }
 
@@ -65,15 +69,17 @@ public class ParametersGenerator {
                 maxAnnotation = annotation;
             }
         }
-        float MIN = minAnnotation == null ? Float.MIN_VALUE : ((Min) minAnnotation).value();
-        float MAX = maxAnnotation == null ? Float.MAX_VALUE : ((Max) maxAnnotation).value();
+        final float MIN = minAnnotation == null ? Float.MIN_VALUE : ((Min) minAnnotation).value();
+        final float MAX = maxAnnotation == null ? Float.MAX_VALUE : ((Max) maxAnnotation).value();
         return ThreadLocalRandom.current().nextFloat(MIN, MAX);
     }
 
     public static String generateString(Annotation[] annotations) {
+        final int MIN_LENGTH_DEFAULT = 3;
+        final int MAX_LENGTH_DEFAULT = 10;
         final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-        int minLength = 3;
-        int maxLength = 10;
+        int minLength = MIN_LENGTH_DEFAULT;
+        int maxLength = MAX_LENGTH_DEFAULT;
         for (Annotation annotation : annotations) {
             if (annotation instanceof Min) {
                 minLength = Integer.min(minLength, (int) ((Min) annotation).value());

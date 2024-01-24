@@ -8,31 +8,31 @@ import java.lang.reflect.Parameter;
 import java.util.HashMap;
 
 public class RandomObjectGenerator {
-    private static final HashMap<Class<?>, Method> classGeneratorHashMap = new HashMap<>();
+    private static final HashMap<Class<?>, Method> CLASS_GENERATOR_MAP = new HashMap<>();
 
     static {
         try {
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 int.class,
                 ParametersGenerator.class.getMethod("generateInt", Annotation[].class)
             );
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 long.class,
                 ParametersGenerator.class.getMethod("generateLong", Annotation[].class)
             );
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 double.class,
                 ParametersGenerator.class.getMethod("generateDouble", Annotation[].class)
             );
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 float.class,
                 ParametersGenerator.class.getMethod("generateFloat", Annotation[].class)
             );
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 String.class,
                 ParametersGenerator.class.getMethod("generateString", Annotation[].class)
             );
-            classGeneratorHashMap.put(
+            CLASS_GENERATOR_MAP.put(
                 boolean.class,
                 ParametersGenerator.class.getMethod("generateBoolean", Annotation[].class)
             );
@@ -70,7 +70,7 @@ public class RandomObjectGenerator {
         for (int i = 0; i < parameters.length; i++) {
             Class<?> classT = parameters[i].getType();
             Annotation[] annotations = parameters[i].getAnnotations();
-            Method method = classGeneratorHashMap.get(classT);
+            Method method = CLASS_GENERATOR_MAP.get(classT);
             try {
                 values[i] = method.invoke(null, (Object) annotations);
             } catch (IllegalAccessException | InvocationTargetException e) {

@@ -61,7 +61,6 @@ public class TasksTest {
         assertThat(task.fixString("hTsii  s aimex dpus rtni.g")).isEqualTo("This is a mixed up string.");
     }
 
-
     @DisplayName("Особый палиндром: True")
     @ParameterizedTest
     @ValueSource(ints = {123312, 11, 11211230, 13001120, 23336014, 4655, 101010})

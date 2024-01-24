@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
+
+    private Main() {
+    }
+
     public static void main(String[] args) {
         String path = CmdArgumentsHelper.getPath(args);
         OffsetDateTime fromDate = CmdArgumentsHelper.getFromDate(args);

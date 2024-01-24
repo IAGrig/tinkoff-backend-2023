@@ -1,17 +1,13 @@
 package edu.hw1;
 
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.Arrays;
 
 public final class Tasks {
     private final static Logger LOGGER = LogManager.getLogger();
 
-    public static void main(String[] args) {
-
-    }
-
-    public void logger_hello_world() {
+    public void loggerHelloWorld() {
         LOGGER.info("Привет, мир!");
     }
 
@@ -23,7 +19,8 @@ public final class Tasks {
             return -1;
         }
 
-        int minutes, seconds;
+        int minutes;
+        int seconds;
         try {
             minutes = Integer.parseInt(splitString[0]);
             seconds = Integer.parseInt(splitString[1]);
@@ -31,10 +28,7 @@ public final class Tasks {
             return -1;
         }
 
-        if (seconds >= SECONDS_PER_MINUTE) {
-            return -1;
-        }
-        if (minutes < 0 || seconds < 0) {
+        if (seconds >= SECONDS_PER_MINUTE || minutes < 0 || seconds < 0) {
             return -1;
         }
 
@@ -42,11 +36,11 @@ public final class Tasks {
     }
 
     public int countDigits(int number) {
-        number = Math.abs(number);
-        if (number == 0) {
+        int absNumber = Math.abs(number);
+        if (absNumber == 0) {
             return 1;
         }
-        return (int) Math.ceil(Math.log10(number + 1));
+        return (int) Math.ceil(Math.log10(absNumber + 1));
     }
 
     public boolean isNestable(int[] a1, int[] a2) {
@@ -65,7 +59,6 @@ public final class Tasks {
         return (min1 > min2 && max1 < max2);
     }
 
-
     public String fixString(String str) {
         char[] array = str.toCharArray();
         for (int i = 1; i < str.length(); i += 2) {
@@ -80,9 +73,9 @@ public final class Tasks {
         int[] digits = intToArray(number);
 
         StringBuilder children = new StringBuilder();
-        if (digits.length%2 == 0) {
+        if (digits.length % 2 == 0) {
             for (int i = 0; i < digits.length; i += 2) {
-                children.append(digits[i]+digits[i+1]);
+                children.append(digits[i] + digits[i + 1]);
             }
         }
 
@@ -102,6 +95,7 @@ public final class Tasks {
         return true;
     }
 
+    @SuppressWarnings("MagicNumber")
     public int countK(int number) {
         // if not 4-digit number
         if (number < 1001 || number >= 9999) {
@@ -128,6 +122,7 @@ public final class Tasks {
         return countK(maxNumber - minNumber, step + 1);
     }
 
+    @SuppressWarnings("MagicNumber")
     public int countK(int number, int step) {
         if (number == 6174) {
             return step;
@@ -145,46 +140,49 @@ public final class Tasks {
     }
 
     public int rotateLeft1Position(int n, int countOfBinaryDigits) {
-        n = n << 1;
-        if (n >= Math.pow(2, countOfBinaryDigits)) {
-            n -= Math.pow(2, countOfBinaryDigits);
-            n += 1;
+        int result = n << 1;
+        if (result >= Math.pow(2, countOfBinaryDigits)) {
+            result -= Math.pow(2, countOfBinaryDigits);
+            result += 1;
         }
-        return n;
+        return result;
     }
 
     public int rotateLeft(int n, int shift) {
         int countOfBinaryDigits = (int) Math.ceil(Math.log(n + 1) / Math.log(2));
-        shift %= countOfBinaryDigits;
-        for (int i = 0; i < shift; i++) {
-            n = rotateLeft1Position(n, countOfBinaryDigits);
+        int clearShift = shift % countOfBinaryDigits;
+        int result = n;
+        for (int i = 0; i < clearShift; i++) {
+            result = rotateLeft1Position(result, countOfBinaryDigits);
         }
-        return n;
+        return result;
     }
 
     public int rotateRight(int n, int shift) {
         int countOfBinaryDigits = (int) Math.ceil(Math.log(n + 1) / Math.log(2));
-        shift %= countOfBinaryDigits;
-        return rotateLeft(n, countOfBinaryDigits - shift);
+        int clearShift = shift % countOfBinaryDigits;
+        return rotateLeft(n, countOfBinaryDigits - clearShift);
     }
 
+    @SuppressWarnings({"CyclomaticComplexity", "ReturnCount"})
     public boolean knightBoardCapture(int[][] desk) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        final int CHESSBOARD_WIDTH = 8;
+        for (int i = 0; i < CHESSBOARD_WIDTH; i++) {
+            for (int j = 0; j < CHESSBOARD_WIDTH; j++) {
                 if (desk[i][j] == 1) {
                     if (i - 2 >= 0) {
                         if (j - 1 >= 0 && desk[i - 2][j - 1] == 1) {
                             return false;
                         }
-                        if (j + 1 <= 7 && desk[i - 2][j + 1] == 1) {
+                        if (j + 1 < CHESSBOARD_WIDTH && desk[i - 2][j + 1] == 1) {
                             return false;
                         }
                     }
-                    if (i + 2 <= 7) {
+                    if (i + 2 < CHESSBOARD_WIDTH) {
                         if (j - 1 >= 0 && desk[i + 2][j - 1] == 1) {
                             return false;
                         }
-                        if (j + 1 <= 7 && desk[i + 2][j + 1] == 1) {
+                        if (j + 1 < CHESSBOARD_WIDTH && desk[i + 2][j + 1] == 1) {
                             return false;
                         }
                     }
@@ -192,15 +190,15 @@ public final class Tasks {
                         if (i - 1 >= 0 && desk[i - 1][j - 2] == 1) {
                             return false;
                         }
-                        if (i + 1 <= 7 && desk[i + 1][j - 2] == 1) {
+                        if (i + 1 < CHESSBOARD_WIDTH && desk[i + 1][j - 2] == 1) {
                             return false;
                         }
                     }
-                    if (j + 2 <= 7) {
+                    if (j + 2 < CHESSBOARD_WIDTH) {
                         if (i - 1 >= 0 && desk[i - 1][j + 2] == 1) {
                             return false;
                         }
-                        if (i + 1 <= 7 && desk[i + 1][j + 2] == 1) {
+                        if (i + 1 < CHESSBOARD_WIDTH && desk[i + 1][j + 2] == 1) {
                             return false;
                         }
                     }
@@ -209,11 +207,14 @@ public final class Tasks {
         }
         return true;
     }
+
     private int[] intToArray(int number) {
+        final int DECIMAL_BASE = 10;
         int countOfDigits = countDigits(number);
         int[] digits = new int[countOfDigits];
         for (int i = 0; i < countOfDigits; i++) {
-            digits[i] = (int) (number % Math.pow(10, countOfDigits - i) / Math.pow(10, countOfDigits - 1 - i));
+            digits[i] = (int) (number % Math.pow(DECIMAL_BASE, countOfDigits - i)
+                / Math.pow(DECIMAL_BASE, countOfDigits - 1 - i));
         }
         return digits;
     }

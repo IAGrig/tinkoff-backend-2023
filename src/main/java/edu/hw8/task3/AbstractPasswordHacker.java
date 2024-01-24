@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractPasswordHacker {
     protected static final int MD5_HASH_LENGTH = 32;
+    private static final int HASH_CONVERSION_CONSTANT = 16;
     protected final Map<String, String> leakedPasswords;
     protected final Map<String, String> hashLoginMap;
     protected final Map<String, String> results;
     protected final String alphabet;
     protected final int minPasswordsLength;
     protected final int maxPasswordsLength;
-    private static final int HASH_CONVERSION_CONSTANT = 16;
 
     public AbstractPasswordHacker(
         Map<String, String> leakedPasswords,

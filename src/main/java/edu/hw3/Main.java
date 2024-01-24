@@ -60,6 +60,9 @@ public class Main {
                         result.add(currentCluster.toString());
                         currentCluster = new StringBuilder();
                     }
+                    break;
+                default:
+                    continue;
             }
         }
         return result;
@@ -74,7 +77,9 @@ public class Main {
     }
 
     public String convertToRoman(int number) {
-        if (number < 1 || number > 3999) {
+        final int MAX_BOUND = 3999;
+        final int DECIMAL_BASE = 10;
+        if (number < 1 || number > MAX_BOUND) {
             return "Unable to convert.";
         }
 
@@ -82,7 +87,8 @@ public class Main {
         // 1234 -> [1000, 200, 30, 4]
         int[] primitives = new int[digitsCount];
         for (int i = 0; i < digitsCount; i++) {
-            primitives[i] = (int) (number % Math.pow(10, digitsCount - i) - number % Math.pow(10, digitsCount - i - 1));
+            primitives[i] = (int) (number % Math.pow(DECIMAL_BASE, digitsCount - i)
+                - number % Math.pow(DECIMAL_BASE, digitsCount - i - 1));
         }
         StringBuilder result = new StringBuilder();
         for (int primitive : primitives) {
@@ -130,24 +136,26 @@ public class Main {
         }
     }
 
+    @SuppressWarnings({"MagicNumber", "FallThrough"})
     private String primitiveToRoman(int number) {
         String lowerBase = "I";
         String middleBase = "V";
         String upperBase = "X";
+        int digit = number;
 
         if (10 <= number && number <= 100) {
             lowerBase = "X";
             middleBase = "L";
             upperBase = "C";
-            number /= 10;
+            digit = number / 10;
         }
         if (100 <= number && number <= 1000) {
             lowerBase = "C";
             middleBase = "D";
             upperBase = "M";
-            number /= 100;
+            digit = number / 100;
         }
-        String result = switch (number) {
+        String result = switch (digit) {
             case 0:
                 yield "";
             case 1:

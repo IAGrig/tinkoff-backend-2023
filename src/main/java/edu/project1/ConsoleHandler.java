@@ -1,22 +1,23 @@
 package edu.project1;
 
+import edu.project1.enums.Status;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConsoleHandler {
 
-    private final static Logger LOGGER = LogManager.getLogger();
     public final static char EXIT_CHAR = '!';
-    private final Scanner scanner = new Scanner(System.in);
+    private final static Logger LOGGER = LogManager.getLogger();
     private final static String EXIT_COMMAND = "!EXIT";
+    private final Scanner scanner = new Scanner(System.in);
 
     public void printGreeting() {
         LOGGER.info("Welcome to HangmanConsoleGame!");
         LOGGER.info("If you want to give up, type " + EXIT_COMMAND + ".");
     }
 
-    public void printTryResult(Session.status tryStatus, int attempt, int maxAttempts) {
+    public void printTryResult(Status tryStatus, int attempt, int maxAttempts) {
         switch (tryStatus) {
             case HIT -> LOGGER.info("Hit!");
             case MISTAKE -> LOGGER.info("Missed, mistake " + attempt + " of " + maxAttempts);

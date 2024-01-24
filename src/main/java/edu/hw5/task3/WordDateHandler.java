@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class WordDateHandler extends DateHandler {
 
+    @SuppressWarnings("ReturnCount")
     @Override
     public Optional<LocalDate> parseDate(String string) {
         switch (string) {

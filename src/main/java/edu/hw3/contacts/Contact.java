@@ -19,7 +19,4 @@ public class Contact {
         return (this.firstName + " " + this.lastName).trim();
     }
 
-    public boolean equals(Contact obj) {
-        return (this.firstName.equals(obj.firstName) && this.lastName.equals(obj.lastName));
-    }
 }

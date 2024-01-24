@@ -4,16 +4,28 @@ import edu.project4.imageProcessing.GammaCorrection;
 import edu.project4.imageProcessing.ImageProcessor;
 import edu.project4.renderers.Renderer;
 import edu.project4.renderers.SingleThreadRenderer;
-import edu.project4.transformations.*;
+import edu.project4.transformations.CylinderTransformation;
+import edu.project4.transformations.DiamondTransformation;
+import edu.project4.transformations.DiskTransformation;
+import edu.project4.transformations.ExponentialTransformation;
+import edu.project4.transformations.EyefishTransformation;
+import edu.project4.transformations.HeartTransformation;
+import edu.project4.transformations.HorseshoeTransformation;
+import edu.project4.transformations.LinearTransformation;
+import edu.project4.transformations.PolarTransformation;
+import edu.project4.transformations.SinusoidalTransformation;
+import edu.project4.transformations.SphericalTransformation;
+import edu.project4.transformations.TangentTransformation;
+import edu.project4.transformations.Transformation;
 import edu.project4.utils.ImageUtils;
-import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 
 public class FractalImageTest {
     @Test
-    public void fractalImageTest(){
+    public void fractalImageTest() {
 
         List<Transformation> transformations = List.of(
             new CylinderTransformation(),
@@ -32,12 +44,11 @@ public class FractalImageTest {
 
         List<AffineCoefficients> affines = Stream.generate(AffineCoefficients::create).limit(6).toList();
 
-
         Renderer renderer = new SingleThreadRenderer();
 
         FractalImage fractalImage = FractalImage.create(1980, 1080);
-        Rect world = new Rect(-10, -10, 20,20);
-        renderer.render(fractalImage, world, transformations, affines,10000, (short) 300, 16);
+        Rect world = new Rect(-10, -10, 20, 20);
+        renderer.render(fractalImage, world, transformations, affines, 10000, (short) 300, 16);
         ImageProcessor gamma = new GammaCorrection(1.9);
         gamma.process(fractalImage);
 

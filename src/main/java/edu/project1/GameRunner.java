@@ -1,5 +1,7 @@
 package edu.project1;
 
+import edu.project1.enums.State;
+
 public class GameRunner {
     Dictionary dictionary;
     ConsoleHandler consoleHandler;
@@ -13,9 +15,9 @@ public class GameRunner {
         Session session = new Session(dictionary.randomWord());
         consoleHandler.printGreeting();
         consoleHandler.printCurrentWord(session.getCurrentWord());
-        while (session.getCurrentState() == Session.state.ACTIVE) {
+        while (session.getCurrentState() == State.ACTIVE) {
             char userLetter = consoleHandler.getUserLetter();
-            if (userLetter == consoleHandler.EXIT_CHAR) {
+            if (userLetter == ConsoleHandler.EXIT_CHAR) {
                 session.giveUp();
             }
             consoleHandler.printTryResult(

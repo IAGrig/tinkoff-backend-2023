@@ -61,7 +61,6 @@ public class MyFixedThreadPool implements ThreadPool {
         workers.forEach(Thread::interrupt);
     }
 
-
     public class Worker extends Thread {
         @Override
         public void run() {

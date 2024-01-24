@@ -6,10 +6,13 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class Task2 {
+    private static final int MONTHS_COUNT = 12;
+    private static final int DAY_NUMBER = 13;
+
     public String[] fridays13OnYear(int year) {
         ArrayList<String> result = new ArrayList<>();
-        LocalDate localDate = LocalDate.of(year, 1, 13);
-        for (int i = 0; i < 12; i++) {
+        LocalDate localDate = LocalDate.of(year, 1, DAY_NUMBER);
+        for (int i = 0; i < MONTHS_COUNT; i++) {
             DayOfWeek dayOfWeek = localDate.getDayOfWeek();
             if (dayOfWeek == DayOfWeek.FRIDAY) {
                 result.add(localDate.toString());
@@ -20,9 +23,10 @@ public class Task2 {
     }
 
     public String getNextFriday13(LocalDate date) {
-        while (date.getDayOfMonth() != 13 || date.getDayOfWeek() != DayOfWeek.FRIDAY) {
-            date = date.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        LocalDate result = date;
+        while (result.getDayOfMonth() != DAY_NUMBER || result.getDayOfWeek() != DayOfWeek.FRIDAY) {
+            result = result.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
         }
-        return date.toString();
+        return result.toString();
     }
 }

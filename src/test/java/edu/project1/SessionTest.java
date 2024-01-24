@@ -1,12 +1,12 @@
 package edu.project1;
 
-import org.junit.jupiter.api.DisplayName;
+import edu.project1.enums.Status;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class SessionTest {
     @Test
-    void getCurrentWordTest(){
+    void getCurrentWordTest() {
         Session session = new Session("test");
         assertThat(session.getCurrentWord()).isEqualTo("****");
         session.tryGuess('t');
@@ -18,22 +18,22 @@ public class SessionTest {
     }
 
     @Test
-    void tryGuessVictoryTest(){
+    void tryGuessVictoryTest() {
         Session session = new Session("test");
-        assertThat(session.tryGuess('a')).isEqualTo(Session.status.MISTAKE);
-        assertThat(session.tryGuess('t')).isEqualTo(Session.status.HIT);
-        assertThat(session.tryGuess('e')).isEqualTo(Session.status.HIT);
-        assertThat(session.tryGuess('s')).isEqualTo(Session.status.VICTORY);
+        assertThat(session.tryGuess('a')).isEqualTo(Status.MISTAKE);
+        assertThat(session.tryGuess('t')).isEqualTo(Status.HIT);
+        assertThat(session.tryGuess('e')).isEqualTo(Status.HIT);
+        assertThat(session.tryGuess('s')).isEqualTo(Status.VICTORY);
     }
 
     @Test
-    void tryGuessDefeatTest(){
+    void tryGuessDefeatTest() {
         Session session = new Session("test");
-        assertThat(session.tryGuess('a')).isEqualTo(Session.status.MISTAKE);
-        assertThat(session.tryGuess('t')).isEqualTo(Session.status.HIT);
-        assertThat(session.tryGuess('e')).isEqualTo(Session.status.HIT);
-        assertThat(session.tryGuess('b')).isEqualTo(Session.status.MISTAKE);
-        assertThat(session.tryGuess('c')).isEqualTo(Session.status.MISTAKE);
-        assertThat(session.tryGuess('d')).isEqualTo(Session.status.DEFEAT);
+        assertThat(session.tryGuess('a')).isEqualTo(Status.MISTAKE);
+        assertThat(session.tryGuess('t')).isEqualTo(Status.HIT);
+        assertThat(session.tryGuess('e')).isEqualTo(Status.HIT);
+        assertThat(session.tryGuess('b')).isEqualTo(Status.MISTAKE);
+        assertThat(session.tryGuess('c')).isEqualTo(Status.MISTAKE);
+        assertThat(session.tryGuess('d')).isEqualTo(Status.DEFEAT);
     }
 }

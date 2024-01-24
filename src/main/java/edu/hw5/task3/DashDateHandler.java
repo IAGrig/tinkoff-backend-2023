@@ -8,7 +8,7 @@ public class DashDateHandler extends DateHandler {
     @Override
     public Optional<LocalDate> parseDate(String string) {
         String[] parts = string.split("-");
-        if (parts.length != 3) { // can't handle
+        if (parts.length != CORRECT_DATE_PARTS_COUNT) {
             if (next != null) {
                 return next.parseDate(string);
             }
